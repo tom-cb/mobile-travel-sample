@@ -28,12 +28,10 @@ class DatabaseManager {
     
 
     // fileprivate
-    fileprivate let kDBName:String = "travel-sample"
-    fileprivate let kGuestDBName:String = "guest"
+    fileprivate let kDBName:String = "cards"
     
     // This is the remote URL of the Sync Gateway (public Port)
-    var kRemoteSyncUrl = "ws://localhost:4984"
-   // fileprivate let kRemoteSyncUrl = "ws://54.148.83.39:4984"
+    var kRemoteSyncUrl = "ws://34.246.168.50:4984"
     
    
     
@@ -56,7 +54,7 @@ class DatabaseManager {
     }()
     
     func initialize() {
-       //  enableCrazyLevelLogging()
+        enableCrazyLevelLogging()
     }
     // Don't allow instantiation . Enforce singleton
     private init() {
@@ -77,39 +75,7 @@ class DatabaseManager {
 
 // MARK: Public
 extension DatabaseManager {
-   
-    
-    func openOrCreateDatabaseForGuest( handler:(_ error:Error?)->Void) {
-        do {
-            var options = DatabaseConfiguration()
-            guard let defaultDBPath = _applicationSupportDirectory else {
-                fatalError("Could not open Application Support Directory for app!")
-                return
-            }
-            // Create a folder for Guest Account if one does not exist
-            let guestFolderUrl = defaultDBPath.appendingPathComponent("guest", isDirectory: true)
-            let guestFolderPath = guestFolderUrl.path
-            let fileManager = FileManager.default
-            if !fileManager.fileExists(atPath: guestFolderPath) {
-                try fileManager.createDirectory(atPath: guestFolderPath,
-                                                withIntermediateDirectories: true,
-                                                attributes: nil)
-                
-            }
-            
-            options.directory = guestFolderPath
-            // Gets handle to existing DB at specified path
-            _db = try Database(name: kGuestDBName, config: options)
 
-            handler(nil)
-        }catch {
-            
-            lastError = error
-            handler(lastError)
-        }
-    }
-
-    
     func openOrCreateDatabaseForUser(_ user:String, password:String, handler:(_ error:Error?)->Void) {
         do {
             var options = DatabaseConfiguration()
@@ -185,9 +151,6 @@ extension DatabaseManager {
                         stopAllReplicationForCurrentUser()
                         try _db?.close()
                         _db = nil
-                case kGuestDBName:
-                    try _db?.close()
-                    _db = nil
                 default:
                     return false
                 }
@@ -250,12 +213,13 @@ extension DatabaseManager {
         
         // This should match what is specified in the sync gateway config
         // Only pull documents from this user's channel
-        let userChannel = "channel.\(user)"
-        config.channels = [userChannel]
-        
+//        let userChannel = "channel.\(user)"
+//        config.channels = [userChannel]
+        print("Config: \(config)")
         _pushPullRepl = Replicator.init(config: config)
         
         _pushPullReplListener = _pushPullRepl?.addChangeListener({ [weak self] (change) in
+            print("change \(change)")
             let s = change.status
             print("PushPull Replicator: \(s.progress.completed)/\(s.progress.total), error: \(String(describing: s.error)), activity = \(s.activity)")
             // Workarond for BUG :https://github.com/couchbase/couchbase-lite-ios/issues/1816.
@@ -315,7 +279,7 @@ extension DatabaseManager {
     
     fileprivate func enableCrazyLevelLogging() {
    
-        Database.setLogLevel(.verbose, domain: .query)
+        //Database.setLogLevel(.verbose, domain: .all)
     }
     
 }

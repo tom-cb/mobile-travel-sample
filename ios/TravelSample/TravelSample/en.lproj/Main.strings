@@ -1,0 +1,18 @@
+
+/* Class = "UITextField"; accessibilityLabel = "password"; ObjectID = "BR4-eN-PJv"; */
+"BR4-eN-PJv.accessibilityLabel" = "password";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "BR4-eN-PJv"; */
+"BR4-eN-PJv.placeholder" = "Password";
+
+/* Class = "UITextField"; accessibilityLabel = "emailAddress"; ObjectID = "V5d-Kh-gDb"; */
+"V5d-Kh-gDb.accessibilityLabel" = "emailAddress";
+
+/* Class = "UITextField"; placeholder = "User Name"; ObjectID = "V5d-Kh-gDb"; */
+"V5d-Kh-gDb.placeholder" = "User Name";
+
+/* Class = "UIButton"; accessibilityLabel = "loginButton"; ObjectID = "qvQ-On-WTK"; */
+"qvQ-On-WTK.accessibilityLabel" = "loginButton";
+
+/* Class = "UIButton"; normalTitle = "Sign In"; ObjectID = "qvQ-On-WTK"; */
+"qvQ-On-WTK.normalTitle" = "Sign In";

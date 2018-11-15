@@ -19,7 +19,6 @@ class LoginViewController:UIViewController {
     @IBOutlet weak var userTextEntry:UITextField!
     
     @IBOutlet weak var loginButton:UIButton!
-    @IBOutlet weak var bgImageView:UIImageView!
     
   
     // MARK: View Related
@@ -49,7 +48,7 @@ class LoginViewController:UIViewController {
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.passwordTextEntry.text = nil
+        //self.passwordTextEntry.text = nil
     }
     
 }
@@ -97,21 +96,6 @@ extension LoginViewController {
                 }
             })
         }
-        
-    }
-    
-    @IBAction func onGuestLoginTapped(_ sender: UIButton) {
-        let cbMgr = DatabaseManager.shared
-        cbMgr.openOrCreateDatabaseForGuest(handler: { (error) in
-            switch error {
-            case nil:
-                NotificationCenter.default.post(Notification.notificationForGuestLoginSuccess())
-                
-            default:
-                NotificationCenter.default.post(Notification.notificationForLoginFailure("guest"))
-                
-            }
-        })
         
     }
     
